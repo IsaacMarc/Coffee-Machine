@@ -1,0 +1,45 @@
+[project]
+name = "Coffee-Machine"
+version = "0.1.0"
+description = "Coffee machine app"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [{ name = "Isaac", email = "qimgsantos@tip.edu.ph" }]
+license = { text = "AGPL-3.0" }
+
+dependencies = [
+    "flet==0.70.0.dev6561",
+    "flet-cli==0.70.0.dev6561",
+    "flet-desktop==0.70.0.dev6561",
+]
+
+[tool.flet]
+org = "com.tip"
+product = "CoffeeMachine"
+company = "TIP"
+copyright = "Copyright (C) 2025"
+compile_app = true
+compile_packages = true
+cleanup_on_compile = true
+build_number = 2
+
+[tool.flet.assets]
+include = ["images/**"]
+
+[tool.flet.splash]
+color = "#ffffff"
+dark_color = "#333333"
+
+[tool.flet.app]
+path = "src"
+
+[tool.flet.app.boot_screen]
+show = true
+message = "Loading... Please wait."
+
+[tool.flet.app.startup_screen]
+show = true
+message = "Loading... Please wait."
+
+[dependency-groups]
+dev = ["tomlkit>=0.13.3"]
