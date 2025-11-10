@@ -3,8 +3,8 @@ from main_ui import main_ui
 from setup import before_main_ui
 
 
-def main(page: ft.Page):
-    main_ui(page)
+async def main(page: ft.Page):
+    await main_ui(page)
     
 def before_main(page: ft.Page):
     before_main_ui(page)
