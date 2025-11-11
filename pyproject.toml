@@ -1,17 +1,19 @@
 [project]
 name = "Coffee-Machine"
-version = "0.1.0"
+version = "0.2.0"
 description = "Coffee machine app"
 readme = "README.md"
 requires-python = ">=3.13"
-authors = [{ name = "Isaac", email = "qimgsantos@tip.edu.ph" }]
+authors = [
+    { name = "Isaac", email = "qimgsantos@tip.edu.ph" },
+    { name = "MetaDusk", email = "andredcxxv@gmail.com" },
+]
 license = { text = "AGPL-3.0" }
 
 dependencies = [
     "flet==0.70.0.dev6561",
     "flet-cli==0.70.0.dev6561",
     "flet-desktop==0.70.0.dev6561",
-    "flet-video>=0.2.0.dev0",
 ]
 
 [tool.flet]
@@ -25,7 +27,7 @@ cleanup_on_compile = true
 build_number = 2
 
 [tool.flet.assets]
-include = ["images/**"]
+include = ["images/**", "font_styles/**"]
 
 [tool.flet.splash]
 color = "#ffffff"

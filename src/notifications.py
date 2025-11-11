@@ -16,3 +16,12 @@ def simple_notification(
         text.color = ft.Colors.ERROR
         snackbar.bgcolor = ft.Colors.ERROR_CONTAINER
     page.overlay.append(snackbar)
+
+def simple_dialog(
+    title: str, icon: ft.IconData, content: str
+):
+    return ft.AlertDialog(
+        title=title, icon=icon, icon_color="#38220F",
+        content=ft.Text(value=content, color="#38220F", font_family="Inter"),
+        bgcolor=ft.Colors.WHITE, elevation=10, open=False, scrollable=True
+    )
