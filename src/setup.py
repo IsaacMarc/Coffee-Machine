@@ -11,6 +11,11 @@ def before_main_ui(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.theme_mode = ft.ThemeMode.LIGHT
+    page.fonts = {
+        "Lobster": "font_styles/Lobster-Regular.ttf",
+        "Inter": "font_styles/Inter-VariableFont_opsz,wght.ttf",
+        "Libre Caslon": "font_styles/LibreCaslonText-Regular.ttf"
+    }
     
     page.window.width = WINDOW_WIDTH
     page.window.height = WINDOW_HEIGHT
