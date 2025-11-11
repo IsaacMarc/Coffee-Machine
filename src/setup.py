@@ -16,6 +16,7 @@ def before_main_ui(page: ft.Page):
         "Inter": "font_styles/Inter-VariableFont_opsz,wght.ttf",
         "Libre Caslon": "font_styles/LibreCaslonText-Regular.ttf"
     }
+    page.theme = ft.Theme(font_family="Inter")
     
     page.window.width = WINDOW_WIDTH
     page.window.height = WINDOW_HEIGHT

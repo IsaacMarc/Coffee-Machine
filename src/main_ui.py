@@ -2,14 +2,13 @@ import flet as ft
 import asyncio
 from menu import Menu
 from coffee_maker import CoffeeMaker
-from money_machine import MoneyMachine
 from setup import fix_stretched_window
-from components import (preset_appbar, exit_button, minimize_button, preset_popup_menu_button, simple_popup_menu_item,
-                        item_content, loading_screen_container, item_container, brewing_coffee_title_container,
-                        skip_button, default_title_container)
+from components import (preset_appbar, exit_button, minimize_button, item_content, loading_screen_container,
+                        item_container, brewing_coffee_title_container, skip_button, default_title_container,
+                        default_data_cell, default_data_column)
 from notifications import simple_notification, simple_dialog
 from images import money_img
-from text import checkout_text
+from text import checkout_text, pomc_text_comp
 from utilities import skippable_delay
 
 
@@ -25,8 +24,7 @@ async def main_ui(page: ft.Page):
     cost: int = 125
     menu_coffee = Menu()
     coffee = CoffeeMaker()
-    money = MoneyMachine()
-    purchase_history: list[ft.TextSpan] = []
+    purchase_history_rows: list[ft.DataRow] = []
     
     # == UI Setup ==
     # Event Handlers
@@ -36,16 +34,24 @@ async def main_ui(page: ft.Page):
         if coffee.is_resource_sufficient(drink) and drink and payment >= cost:
             coffee.make_coffee(drink)
         if payment >= cost:
-            msg = "Payment Successful: Recieved Exact Cash" if payment == cost else "Payment Successful"
+            msg = "Payment Successful! Recieved Exact Cash." if payment == cost else "Payment Successful!"
             simple_notification(msg, page)
-            new_entry = ft.TextSpan("Temp")
-            purchase_history.append(new_entry)
-            new_entry.text = f"Order #{len(purchase_history)}: {choice} | Total: {cost} | Cash Tendered: {payment} | Change: {payment - cost}\n"
-            print(f"Purchase history is now {len(purchase_history)} entries long.")
+            order_num = len(purchase_history_rows) + 1
+            print(f"Received Order Number: {order_num}")
+            purchase_history_rows.append(
+                ft.DataRow(cells=[
+                    default_data_cell(order_num),
+                    default_data_cell(choice.capitalize()),
+                    default_data_cell(f"₱{cost}"),
+                    default_data_cell(f"₱{payment}"),
+                    default_data_cell(f"₱{payment - cost}")
+                ])
+            )
+            print(f"Purchase history is now {len(purchase_history_rows)} entries long.")
             payment = 0
             asyncio.create_task(brew_coffee())
         else:
-            simple_notification("Insufficient Funds!", page, is_error=True)
+            simple_notification(f"Insufficient Funds! Missing ₱{cost - payment}", page, is_error=True)
     
     def on_confirm(_):
         form.content = post_order_menu_bg
@@ -73,7 +79,7 @@ async def main_ui(page: ft.Page):
         open_confirmation_dlg()
     
     def open_purchase_history(_):
-        if not purchase_history:
+        if not purchase_history_rows:
             nonlocal notif_dlg
             notif_dlg.open = True
             page.update()
@@ -81,9 +87,7 @@ async def main_ui(page: ft.Page):
         
         page.overlay.pop(1)
         notif_dlg = simple_dialog("Purchase History", ft.Icons.HISTORY, "Empty")
-        text: ft.Text = notif_dlg.content
-        text.value = ""
-        text.spans = purchase_history
+        notif_dlg.content = purchase_history_table
         page.overlay.append(notif_dlg)
         notif_dlg.open = True
         page.update()
@@ -115,7 +119,7 @@ async def main_ui(page: ft.Page):
                 ),
                 ft.Container(
                     ft.Text(
-                        value=f"Dispensing: {choice}", size=28,
+                        value=f"Dispensing: {choice.capitalize()}", size=28,
                         font_family="Lobster", color="#38220F",
                         text_align=ft.TextAlign.CENTER
                     ), bgcolor=ft.Colors.WHITE,
@@ -129,7 +133,7 @@ async def main_ui(page: ft.Page):
         
         form.content = default_title_container(
             ft.Text(
-                value=f"Enjoy your {choice}!", font_family="Inter",
+                value=f"Enjoy your {choice.capitalize()}!", font_family="Inter",
                 size=64, color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
             ),
             on_click=lambda _: skip_event.set()
@@ -144,26 +148,11 @@ async def main_ui(page: ft.Page):
     pomc_text = ft.Column(controls=[
         checkout_text("ORDER AMOUNT", ft.FontWeight.W_800),
         ft.Divider(ft.Colors.BLACK),
-        ft.Text(
-            spans=[
-                ft.TextSpan("Total Amount: ₱"),
-                ft.TextSpan(125)
-            ], font_family="Inter", size=32, weight=ft.FontWeight.W_600
-        ),
-        ft.Text(
-            spans=[
-                ft.TextSpan("Amount Tendered: ₱"),
-                ft.TextSpan(0)
-            ], font_family="Inter", size=32, weight=ft.FontWeight.W_600
-        ),
-        ft.Text(
-            spans=[
-                ft.TextSpan("Change: ₱"),
-                ft.TextSpan(0)
-            ], font_family="Inter", size=32, weight=ft.FontWeight.W_600
-        ),
+        pomc_text_comp("Total Amount: ₱", 125),
+        pomc_text_comp("Amount Tendered: ₱"),
+        pomc_text_comp("Change: ₱"),
         ft.Button(
-            content=ft.Text("Pay", color=ft.Colors.WHITE, size=30),
+            content=ft.Text("Pay", color=ft.Colors.WHITE, size=30, font_family="Inter"),
             elevation=10, width=200, bgcolor="#5C412A",
             on_click=on_payment
         )
@@ -188,17 +177,26 @@ async def main_ui(page: ft.Page):
         page.update()
     
     # Components
+    purchase_history_table = ft.DataTable(
+        columns=[
+            default_data_column("No."),
+            default_data_column("Order"),
+            default_data_column("Total"),
+            default_data_column("Cash Tendered"),
+            default_data_column("Change")
+        ], rows=purchase_history_rows
+    )
+    
     notif_dlg = simple_dialog("Purchase History", ft.Icons.HISTORY, "Empty")
     
-    popup_menu = preset_popup_menu_button([
-        simple_popup_menu_item(
-            text="Show Purchase History", color="#38220F",
-            icon=ft.Icons.HISTORY, on_click=open_purchase_history
-        )
-    ])
+    purchase_history_btn = ft.Button(
+        content=ft.Text("Show Purchase History", color="#38220F"),
+        icon=ft.Icons.HISTORY, icon_color="#38220F",
+        on_click=open_purchase_history
+    )
     
     appbar = preset_appbar([
-        popup_menu, ft.Container(width=50),
+        purchase_history_btn, ft.Container(width=50),
         minimize_button(page), exit_button(page)
     ])
     

@@ -86,15 +86,20 @@ def skip_button(skip_event: asyncio.Event):
 def preset_appbar(actions: list[ft.Control]) -> ft.AppBar:
     """A simple predefined appbar."""
     return ft.AppBar(
+        leading=ft.WindowDragArea(
+            ft.Container(
+                ft.Image(src="icon.png", fit=ft.BoxFit.CONTAIN, expand=True),
+                padding=8
+            ),
+            maximizable=False, expand=True
+        ),
         title=ft.WindowDragArea(
             content=ft.Text("Fletto 'Spresso Machine", color="#5C412A"),
-            maximizable=False
+            maximizable=False, expand=True
         ),
-        actions=actions,
-        bgcolor=ft.Colors.WHITE,
+        actions=actions, bgcolor=ft.Colors.WHITE,
         actions_padding=4, title_spacing=4,
-        shape=ft.RoundedRectangleBorder(radius=5),
-        leading_width=8, leading=ft.Container()
+        shape=ft.RoundedRectangleBorder(radius=5)
     )
     
 # Containers
@@ -200,4 +205,16 @@ def default_title_container(
         content=content, bgcolor="#38220F", expand=True,
         alignment=ft.Alignment.CENTER, on_click=on_click
     )
-    
+
+def default_data_cell(text: str) -> ft.DataCell:
+    return ft.DataCell(
+        content=ft.Text(value=text, font_family="Inter", size=15)
+    )
+
+def default_data_column(text: str) -> ft.DataColumn:
+    return ft.DataColumn(
+        tooltip=text, label=ft.Text(
+            value=text, font_family="Inter", size=25,
+            weight=ft.FontWeight.W_700
+        )
+    )

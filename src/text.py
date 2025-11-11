@@ -6,3 +6,11 @@ def item_title(text: str, size: ft.Number = 52):
 
 def checkout_text(text: str, weight: ft.FontWeight):
     return ft.Text(value=text, weight=weight, font_family="Inter", size=32)
+
+def pomc_text_comp(text: str, value: int = 0) -> ft.Text:
+    return ft.Text(
+        spans=[
+            ft.TextSpan(text),
+            ft.TextSpan(value)
+        ], font_family="Inter", size=32, weight=ft.FontWeight.W_600
+    )
