@@ -6,7 +6,7 @@ def simple_notification(
     *, is_error: bool = False
 ):
     snackbar = ft.SnackBar(
-        content=ft.Text(value=content, size=20, font_family="Inter"), open=True,
+        content=ft.Text(value=content, size=20), open=True,
         duration=duration, behavior=ft.SnackBarBehavior.FLOATING,
         on_dismiss=lambda e: page.overlay.remove(e.control),
         bgcolor="#5C412A"
@@ -25,6 +25,6 @@ def simple_dialog(
         title=ft.Text(value=title, color="#38220F", font_family="Lobster", size=title_size),
         icon=ft.Icon(icon=icon, size=title_size),
         icon_color="#38220F",
-        content=ft.Text(value=content, color="#38220F", font_family="Inter", size=title_size-10),
+        content=ft.Text(value=content, color="#38220F", size=title_size-10),
         bgcolor=ft.Colors.WHITE, elevation=10, open=False, scrollable=True
     )

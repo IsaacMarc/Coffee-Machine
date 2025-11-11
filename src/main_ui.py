@@ -10,6 +10,7 @@ from notifications import simple_notification, simple_dialog
 from images import money_img
 from text import checkout_text, pomc_text_comp
 from utilities import skippable_delay
+from layouts import default_row
 
 
 async def main_ui(page: ft.Page):
@@ -133,8 +134,8 @@ async def main_ui(page: ft.Page):
         
         form.content = default_title_container(
             ft.Text(
-                value=f"Enjoy your {choice.capitalize()}!", font_family="Inter",
-                size=64, color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
+                value=f"Enjoy your {choice.capitalize()}!", size=64,
+                color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
             ),
             on_click=lambda _: skip_event.set()
         )
@@ -152,7 +153,7 @@ async def main_ui(page: ft.Page):
         pomc_text_comp("Amount Tendered: ₱"),
         pomc_text_comp("Change: ₱"),
         ft.Button(
-            content=ft.Text("Pay", color=ft.Colors.WHITE, size=30, font_family="Inter"),
+            content=ft.Text("Pay", color=ft.Colors.WHITE, size=30),
             elevation=10, width=200, bgcolor="#5C412A",
             on_click=on_payment
         )
@@ -269,26 +270,19 @@ async def main_ui(page: ft.Page):
     )
     
     confirmation_dlg = ft.AlertDialog(
-        title=ft.Text(
-            "Confirm Order?", font_family="Inter",
-            size=32, weight=ft.FontWeight.W_800
-        ), actions=[
-            ft.Button(ft.Text("Yes", size=20, font_family="Inter"), on_click=on_confirm),
-            ft.Button(ft.Text("No", size=20, font_family="Inter"), on_click=on_dismiss)
+        title=ft.Text("Confirm Order?", size=32, weight=ft.FontWeight.W_800),
+        actions=[
+            ft.Button(ft.Text("Yes", size=20), on_click=on_confirm),
+            ft.Button(ft.Text("No", size=20), on_click=on_dismiss)
         ], open=False, modal=True,
         actions_alignment=ft.MainAxisAlignment.CENTER
     )
     
-    item_row = ft.Row(
-        controls=[
-            item_container(latte_container, width=381, height=577, on_click=on_click_lat),
-            item_container(cappuccino_container, width=369, height=577, on_click=on_click_cap),
-            item_container(espresso_container, width=322, height=577, on_click=on_click_esp),
-        ], spacing=16, expand=True,
-        alignment=ft.MainAxisAlignment.CENTER,
-        vertical_alignment=ft.CrossAxisAlignment.CENTER,
-        run_spacing=16, run_alignment=ft.MainAxisAlignment.CENTER
-    )
+    item_row = default_row([
+        item_container(latte_container, width=381, on_click=on_click_lat),
+        item_container(cappuccino_container, width=369, on_click=on_click_cap),
+        item_container(espresso_container, width=322, on_click=on_click_esp)
+    ])
     
     bg_container = ft.Container(
         padding=16, content=item_row,

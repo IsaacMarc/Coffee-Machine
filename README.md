@@ -1,6 +1,12 @@
-# CoffeeMachine app
+# Coffee-Machine App
 
-## Run the app
+A Flet app for a school project. This app basically simulates a coffee machine.
+
+## Setup/Installation
+
+Refer to the releases section to the right of the GitHub repository. You can simply just download the installer, then finish the setup with the setup wizard.
+
+## Running the app locally
 
 ### uv
 
@@ -16,7 +22,7 @@ Run as a web app:
 uv run flet run --web
 ```
 
-## Build the app
+## Building the app locally
 
 ### Windows
 

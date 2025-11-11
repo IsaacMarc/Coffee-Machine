@@ -77,7 +77,7 @@ def preset_popup_menu_button(
 
 def skip_button(skip_event: asyncio.Event):
     return ft.Button(
-        content=ft.Text("Skip", size=20, font_family="Inter", weight=ft.FontWeight.W_400),
+        content=ft.Text("Skip", size=20, weight=ft.FontWeight.W_400),
         on_click=lambda _: skip_event.set(), bgcolor=ft.Colors.WHITE, color=ft.Colors.BLACK,
         elevation=10, width=100
     )
@@ -106,7 +106,7 @@ def preset_appbar(actions: list[ft.Control]) -> ft.AppBar:
 def item_subcontent(on_click: ft.ControlEvent):
     return ft.Column(
         controls=[
-            ft.Text("₱125.00", font_family="Inter", size=24, weight=ft.FontWeight.W_600, color="#453426"),
+            ft.Text("₱125.00",size=24, weight=ft.FontWeight.W_600, color="#453426"),
             ft.Button(
                 ft.Text("Ingredients", font_family="Lobster", size=20, color=ft.Colors.WHITE),
                 width=142, height=36, bgcolor="#967259", elevation=10, on_click=on_click
@@ -123,7 +123,7 @@ def loading_screen_container():
     ])
 
 def item_container(
-    content: ft.StrOrControl, *, width: ft.Number, height: ft.Number,
+    content: ft.StrOrControl, *, width: ft.Number, height: ft.Number = 577,
     on_click: ft.ControlEventHandler[ft.Container]
 ):
     def on_hover(e: ft.ControlEvent):
@@ -190,8 +190,8 @@ def item_content(title: str):
 def brewing_coffee_title_container(skip_button: ft.Button):
     return default_column([
         ft.Text(
-            value="Your Coffee is Brewing", font_family="Inter",
-            size=64, color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
+            value="Your Coffee is Brewing", size=64,
+            color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
         ),
         ft.ProgressRing(width=100, height=100),
         skip_button
@@ -208,13 +208,13 @@ def default_title_container(
 
 def default_data_cell(text: str) -> ft.DataCell:
     return ft.DataCell(
-        content=ft.Text(value=text, font_family="Inter", size=15)
+        content=ft.Text(value=text, size=15)
     )
 
 def default_data_column(text: str) -> ft.DataColumn:
     return ft.DataColumn(
         tooltip=text, label=ft.Text(
-            value=text, font_family="Inter", size=25,
+            value=text, size=25,
             weight=ft.FontWeight.W_700
         )
     )
