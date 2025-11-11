@@ -1,6 +1,6 @@
 [project]
 name = "Coffee-Machine"
-version = "0.2.0"
+version = "0.2.1"
 description = "Coffee machine app"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -24,7 +24,7 @@ copyright = "Copyright (C) 2025"
 compile_app = true
 compile_packages = true
 cleanup_on_compile = true
-build_number = 3
+build_number = 1
 
 [tool.flet.assets]
 include = ["images/**", "font_styles/**"]
