@@ -118,8 +118,8 @@ def item_subcontent(on_click: ft.ControlEvent):
     
 def loading_screen_container():
     return default_column([
-        item_title("Starting Up the Coffee Machine...", size=25),
-        ft.ProgressRing(width=100, height=100)
+        item_title("Starting Up the Coffee Machine...", size=35),
+        ft.ProgressRing(width=150, height=150, color="#453426", padding=8)
     ])
 
 def item_container(
@@ -193,7 +193,7 @@ def brewing_coffee_title_container(skip_button: ft.Button):
             value="Your Coffee is Brewing", size=64,
             color=ft.Colors.WHITE, weight=ft.FontWeight.W_800
         ),
-        ft.ProgressRing(width=100, height=100),
+        ft.ProgressRing(width=150, height=150, color=ft.Colors.WHITE, padding=16),
         skip_button
     ])
 

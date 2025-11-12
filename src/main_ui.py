@@ -130,7 +130,7 @@ async def main_ui(page: ft.Page):
             expand=True
         )
         form.update()
-        await skippable_delay(skip_event, 16, clear_after_skip=True)
+        await skippable_delay(skip_event, 17, clear_after_skip=True)
         
         form.content = default_title_container(
             ft.Text(
